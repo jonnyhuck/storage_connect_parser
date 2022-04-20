@@ -3,7 +3,7 @@ Convert JSON data from StorageConnect into a Geopackage
 
 Simple Usage:
 ```bash
-python sc2shp.py -i "/Users/jonnyhuck/Downloads/Export2022-04-19T16-23-09.json" -o "/Users/jonnyhuck/Downloads/gps_traces.gpkg"
+python sc2shp.py -i "./Export2022-04-19T16-23-09.json" -o "./gps_traces.gpkg"
 ```
 
 Full set of usage parameters:

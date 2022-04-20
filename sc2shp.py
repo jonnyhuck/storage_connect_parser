@@ -6,7 +6,7 @@ Data Source:
     https://storageconnect.its.manchester.ac.uk/Data/Export/579ad18d-4732-402d-822f-38da12e9edc5
 
 Example Usage:
-    python sc2shp.py -i "/Users/jonnyhuck/Downloads/Export2022-04-19T16-23-09.json" -o "/Users/jonnyhuck/Downloads/gps_traces.gpkg"
+    python sc2shp.py -i "./Export2022-04-19T16-23-09.json" -o "./gps_traces.gpkg"
 """
 
 from json import load as load_json
