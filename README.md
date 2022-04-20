@@ -1,4 +1,4 @@
-# storage_connect_parser
+# Storage Connect Parser
 Convert JSON data from StorageConnect into a Geopackage
 
 Simple Usage:
