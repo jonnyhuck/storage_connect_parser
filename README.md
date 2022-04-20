@@ -1,5 +1,6 @@
 # Storage Connect Parser
-Convert JSON data from StorageConnect into a Geopackage
+Simple processing script for data collected from GPS Tracker application.  
+Converts the JSON dataset from StorageConnect into a Geopackage for analysis in GIS.
 
 Simple Usage:
 ```bash
