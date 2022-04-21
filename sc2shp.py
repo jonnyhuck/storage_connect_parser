@@ -84,7 +84,7 @@ def parse_data(in_path, out_path="", export=True, report=True, debug=False):
         geometry=[Point(ll) for ll in zip(df.longitude, df.latitude)])
     del df
 
-    # print count per users
+    # report user data (lazily via table join...)
     if report:
         print()
         print(merge(\
@@ -104,6 +104,7 @@ def parse_data(in_path, out_path="", export=True, report=True, debug=False):
                     'user_id': 'str',
                     'timestamp': 'datetime',
                     'accuracy': 'int',
+                    'device_details': 'str',
                 }
             }
             gdf.to_file(out_path, driver='GPKG', layer='gps_traces', schema=schema)
