@@ -15,7 +15,7 @@ from geopandas import GeoDataFrame
 from argparse import ArgumentParser
 from datetime import datetime as dt
 from fiona.errors import DriverIOError
-from pandas import DataFrame, concat, to_datetime
+from pandas import DataFrame, concat, to_datetime, merge
 
 def parse_data(in_path, out_path="", export=True, report=True, debug=False):
     """
@@ -53,13 +53,13 @@ def parse_data(in_path, out_path="", export=True, report=True, debug=False):
         # construct dataframe and load into list
         try:
             dfs.append(DataFrame({
-                'user_id':      [d['user_id']]*len(d['longitude']),
-                'longitude':    [float(n.replace(",",".")) for n in d['longitude']],
-                'latitude':     [float(n.replace(",",".")) for n in d['latitude']],
-                'timestamp':    d['timestamp'], #[dt.strptime(n, "%b %d %H:%M:%S %Y %Z") for n in d['timestamp']],
-                'accuracy':     [int(n) for n in d['accuracy']],
+                'user_id':          [d['user_id']]*len(d['longitude']),
+                'longitude':        [float(n.replace(",",".")) for n in d['longitude']],
+                'latitude':         [float(n.replace(",",".")) for n in d['latitude']],
+                'timestamp':        d['timestamp'],
+                'accuracy':         [int(n) for n in d['accuracy']],
+                'device_details':   [d['device_details']]*len(d['longitude']),
             }))
-            # dfs[-1].timestamp = to_datetime(dfs[-1].timestamp, nfer_datetime_format=True)
         except ValueError as e:
             if debug:
                 print(e)
@@ -68,6 +68,7 @@ def parse_data(in_path, out_path="", export=True, report=True, debug=False):
                 print(d['latitude'])
                 print(d['timestamp'])
                 print(d['accuracy'])
+                print(d['device_details'])
                 print()
             continue
 
@@ -87,7 +88,11 @@ def parse_data(in_path, out_path="", export=True, report=True, debug=False):
     # print count per users
     if report:
         print()
-        print(gdf['timestamp'].groupby(gdf.user_id).agg(First_Log='min', Last_Log='max', N_Logs='count').reset_index().sort_values(['N_Logs'], ascending=False))
+        print(merge(\
+            left=gdf['timestamp'].groupby(gdf['user_id']).agg(First_Log='min', Last_Log='max', N_Logs='count').reset_index().sort_values(['N_Logs'], ascending=False), 
+            right=gdf['device_details'].groupby(gdf['user_id']).first().reset_index(), 
+            how="inner", 
+            on='user_id'))
         print()
 
     # export to shapefile
