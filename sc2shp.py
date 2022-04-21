@@ -89,7 +89,8 @@ def parse_data(in_path, out_path="", export=True, report=True, debug=False):
     if report:
         print()
         print(merge(\
-            left=gdf['timestamp'].groupby(gdf['user_id']).agg(First_Log='min', Last_Log='max', N_Logs='count').reset_index().sort_values(['N_Logs'], ascending=False), 
+            left=gdf['timestamp'].groupby(gdf['user_id']).agg(First_Log='min', Last_Log='max', N_Logs='count'\
+                ).reset_index().sort_values(['N_Logs'], ascending=False), 
             right=gdf['device_details'].groupby(gdf['user_id']).first().reset_index(), 
             how="inner", 
             on='user_id'))
@@ -114,9 +115,6 @@ def parse_data(in_path, out_path="", export=True, report=True, debug=False):
 
 # parse arguments and pass to function
 if __name__ == '__main__':
-
-    # dt.strptime("2022-04-16 10:50:46 GMT-04:00", "%Y-%m-%d $H:%M:%S GMT%z")
-    # exit()
     parser = ArgumentParser(description='Simple script to parse GPS data from Storage Connect into a GeoDataFrame and export to Shapefile.')
     parser.add_argument('-i', '--in_path', help='File Path for input file (*.json)', required=True)
     parser.add_argument('-o', '--out_path', help='File path for output file (*.gpkg)', required=False)
