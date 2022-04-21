@@ -13,7 +13,6 @@ from json import load as load_json
 from shapely.geometry import Point
 from geopandas import GeoDataFrame
 from argparse import ArgumentParser
-from datetime import datetime as dt
 from fiona.errors import DriverIOError
 from pandas import DataFrame, concat, to_datetime, merge
 
