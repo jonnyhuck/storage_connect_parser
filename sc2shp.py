@@ -59,7 +59,7 @@ def parse_data(in_path, out_path="", export=True, report=True, debug=False):
                 'accuracy':         [int(n) for n in d['accuracy']],
                 'device_details':   [d['device_details']]*len(d['longitude']),
             }))
-        except ValueError as e:
+        except (KeyError, ValueError) as e:
             if debug:
                 print(e)
                 print(d['user_id'])
