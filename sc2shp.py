@@ -41,6 +41,7 @@ def parse_data(in_path, out_path="", export=True, report=True, debug=False):
     try:
         with open(in_path) as json_file:
             data = load_json(json_file)
+            print(f"retrieved {len(data['packets'])} packets...")
     except FileNotFoundError:
         print("Input file not found")
         exit(1)
@@ -73,6 +74,7 @@ def parse_data(in_path, out_path="", export=True, report=True, debug=False):
 
     # concat all DataFrames into a single one
     df = concat(dfs)
+    print(f"\t...comprising {len(df.index)} records")
 
     # parse date and time
     df['timestamp'] = to_datetime(df['timestamp'], infer_datetime_format=True)
@@ -95,7 +97,7 @@ def parse_data(in_path, out_path="", export=True, report=True, debug=False):
             on='user_id'))
         print()
 
-    # export to shapefile
+    # export to GeoPackage
     if export:
         try:
             schema = {
